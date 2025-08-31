@@ -70,8 +70,11 @@ struct ProductListView: View {
             .onChange(of: searchText) { query in
                 if let sort = selectedSort ?? viewModel.sortOptions.first {
                     viewModel.searchProducts(query: query, sort: sort)
+                } else {
+                    viewModel.fetchProducts()
                 }
-            }            .onAppear {
+            }
+            .onAppear {
                 viewModel.fetchProducts()
             }
         }
