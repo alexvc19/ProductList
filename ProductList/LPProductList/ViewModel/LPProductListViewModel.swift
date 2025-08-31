@@ -24,15 +24,20 @@ class LPProductViewModel: ObservableObject {
         currentPage = 1
         canLoadMore = true
         currentQuery = ""
-        loadProducts(page: currentPage, query: currentQuery, sort: currentSort?.sortBy ?? "", isAppending: false)
+        
+        let defaultSort = sortOptions.first?.sortBy ?? "predefined"
+        loadProducts(page: currentPage, query: currentQuery, sort: defaultSort, isAppending: false)
     }
 
     func searchProducts(query: String, sort: SortOption?) {
         currentQuery = query
         currentSort = sort
+        
         currentPage = 1
         canLoadMore = true
-        loadProducts(page: currentPage, query: currentQuery, sort: currentSort?.sortBy ?? "", isAppending: false)
+        
+        let sortParam = currentSort?.sortBy ?? "predefined"
+        loadProducts(page: currentPage, query: currentQuery, sort: sortParam, isAppending: false)
     }
 
     func loadNextPage() {
@@ -44,6 +49,7 @@ class LPProductViewModel: ObservableObject {
     private func loadProducts(page: Int, query: String, sort: String, isAppending: Bool) {
         isLoading = true
         errorMessage = nil
+
         guard let url = ConstantsURL.buildProductsURL(page: page, search: query, sortOption: sort) else {
             print("URL inválida")
             return
@@ -58,6 +64,7 @@ class LPProductViewModel: ObservableObject {
                 case .finished: break
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
+                    print(error)
                 }
             } receiveValue: { [weak self] response in
                 guard let self = self else { return }
@@ -67,6 +74,7 @@ class LPProductViewModel: ObservableObject {
                     self.products = response.plpResults.records
                 }
                 self.canLoadMore = !response.plpResults.records.isEmpty
+
                 self.sortOptions = response.plpResults.sortOptions
             }
             .store(in: &cancellables)

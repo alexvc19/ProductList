@@ -40,7 +40,7 @@ struct ProductView: View {
                     .lineLimit(2)
                 priceView
                 HStack(spacing: 6) {
-                    ForEach(product.variantsColor, id: \.self) { variant in
+                    ForEach(product.variantsColor ?? [], id: \.self) { variant in
                         Circle()
                             .fill(Color(hex: variant.colorHex))
                             .frame(width: 20, height: 20)

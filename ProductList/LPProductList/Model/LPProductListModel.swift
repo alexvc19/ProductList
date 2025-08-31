@@ -19,13 +19,13 @@ struct PLPResults: Decodable {
 struct Product: Identifiable, Decodable {
     let id: String
     let name: String
-    let brand: String
+    let brand: String?
     let listPrice: Double
     let promoPrice: Double
     let averageRating: Double
     let ratingCount: Int
     let imageURL: String
-    let variantsColor: [ColorVariant]
+    let variantsColor: [ColorVariant]?
 
     enum CodingKeys: String, CodingKey {
         case id = "productId"
