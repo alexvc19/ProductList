@@ -2,7 +2,7 @@
 //  ProductListUITestsLaunchTests.swift
 //  ProductListUITests
 //
-//  Created by DaCodes on 31/08/25.
+//  Created by Alejandro Velasco on 31/08/25.
 //
 
 import XCTest
