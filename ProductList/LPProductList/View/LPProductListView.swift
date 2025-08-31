@@ -68,9 +68,10 @@ struct ProductListView: View {
             }
             .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Buscar")
             .onChange(of: searchText) { query in
-                viewModel.searchProducts(query: query, sort: selectedSort ?? viewModel.sortOptions.first!)
-            }
-            .onAppear {
+                if let sort = selectedSort ?? viewModel.sortOptions.first {
+                    viewModel.searchProducts(query: query, sort: sort)
+                }
+            }            .onAppear {
                 viewModel.fetchProducts()
             }
         }
